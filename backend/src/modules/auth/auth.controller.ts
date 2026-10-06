@@ -1,4 +1,4 @@
-import { Router, Response } from 'express'
+import { Router, Request, Response } from 'express'
 import { z } from 'zod'
 import bcrypt from 'bcryptjs'
 import prisma from '../../services/database'
@@ -224,14 +224,14 @@ router.post('/google/sync', async (req: AuthRequest, res: Response): Promise<voi
 })
 
 // Helpers for dynamic OAuth resolution
-const resolveRedirectUri = (req: express.Request): string => {
+const resolveRedirectUri = (req: Request): string => {
   if (config.google.redirectUri) return config.google.redirectUri
   const proto = (req.headers['x-forwarded-proto'] as string) || req.protocol || 'https'
   const host = req.get('host')
   return `${proto}://${host}/api/auth/google/callback`
 }
 
-const resolveFrontendUrl = (req: express.Request, stateReturnTo?: string): string => {
+const resolveFrontendUrl = (req: Request, stateReturnTo?: string): string => {
   if (stateReturnTo && (stateReturnTo.startsWith('http://') || stateReturnTo.startsWith('https://'))) {
     return stateReturnTo.replace(/\/+$/, '')
   }
