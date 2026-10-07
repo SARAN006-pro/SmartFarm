@@ -35,16 +35,22 @@ export default function AuthCallback() {
       try {
         localStorage.setItem("token", token)
         localStorage.setItem("vaagai_token", token)
+        let parsedUser: any = null
         if (userParam) {
           try {
-            const parsedUser = JSON.parse(decodeURIComponent(userParam))
+            parsedUser = JSON.parse(decodeURIComponent(userParam))
             localStorage.setItem("user", JSON.stringify(parsedUser))
           } catch {
             localStorage.setItem("user", userParam)
           }
         }
-        setStatus("Login successful! Redirecting to dashboard...")
-        navigate("/dashboard", { replace: true })
+        if (parsedUser?.id) {
+          localStorage.setItem("vaagai_user_id", parsedUser.id)
+        } else if (parsedUser?.email) {
+          localStorage.setItem("vaagai_user_id", parsedUser.email)
+        }
+        setStatus("Login successful! Launching your 3D Farm...")
+        navigate("/farm", { replace: true })
         return
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to store session data")
@@ -77,7 +83,13 @@ export default function AuthCallback() {
         localStorage.setItem("token", data.token)
         localStorage.setItem("vaagai_token", data.token)
         localStorage.setItem("user", JSON.stringify(data.user))
-        navigate("/dashboard", { replace: true })
+        if (data.user?.id) {
+          localStorage.setItem("vaagai_user_id", data.user.id)
+        } else if (data.user?.email) {
+          localStorage.setItem("vaagai_user_id", data.user.email)
+        }
+        setStatus("Login successful! Launching your 3D Farm...")
+        navigate("/farm", { replace: true })
       } catch (err) {
         setError(err instanceof Error ? err.message : "Authentication failed")
       }

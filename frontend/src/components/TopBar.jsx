@@ -29,13 +29,15 @@ function ThemeToggle({ isDark, onToggle }) {
 }
 
 const SITE_ROUTES = [
-  { to: '/farm', label: '3D Farm', description: 'View and edit your farm in 3D', icon: Tractor },
+  { to: '/farm', label: '3D Farm', description: 'Interactive 3D field viewer and farm twin', icon: Tractor },
+  { to: '/dashboard', label: 'Dashboard', description: 'Overview and quick operations hub', icon: BarChart3 },
   { to: '/recommendations', label: 'Crop Recommendations', description: 'Season-aware crop guidance', icon: Sprout },
   { to: '/plot-details', label: 'Plot Details', description: 'Inspect plots and create new ones', icon: BarChart3 },
   { to: '/planning', label: 'Crop Planning', description: 'Manage tasks and plans', icon: CircleCheckBig },
-  { to: '/calendar', label: 'Calendar', description: 'Daily activities and harvest view', icon: Clock3 },
+  { to: '/calendar', label: 'Crop Calendar', description: 'Daily activities and harvest view', icon: Clock3 },
   { to: '/market', label: 'Market Prices', description: 'Live crop price trends', icon: BarChart3 },
   { to: '/weather', label: 'Weather', description: 'Forecasts and alerts', icon: Cloud },
+  { to: '/chat', label: 'AI Farm Assistant', description: 'Chat with intelligent agronomist', icon: Sprout },
   { to: '/analytics', label: 'Analytics', description: 'Plot performance and yields', icon: BarChart3 },
   { to: '/files', label: 'Files & Uploads', description: 'Documents and reports', icon: FileText },
   { to: '/settings', label: 'Settings', description: 'Profile and preferences', icon: Settings },

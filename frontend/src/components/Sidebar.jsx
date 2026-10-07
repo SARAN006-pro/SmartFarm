@@ -5,6 +5,7 @@ import {
   Settings, MapPin, TrendingUp, Calendar,
   DollarSign, FolderOpen, Radio, ChevronRight, X,
   Cloud, FileText, Bell, Tractor, Layers3,
+  LayoutDashboard, MessageSquare, LogOut,
 } from 'lucide-react'
 
 const NAV_SECTIONS = [
@@ -12,9 +13,10 @@ const NAV_SECTIONS = [
     label: 'Main',
     items: [
       { to: '/farm', label: '3D Farm', icon: Tractor },
+      { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
       { to: '/recommendations', label: 'Crop Recommendations', icon: Sprout },
       { to: '/plot-details', label: 'Plot Details', icon: Layers3 },
-      { to: '/planning', label: 'Crop Planning', icon: Sprout },
+      { to: '/planning', label: 'Crop Planning', icon: Calendar },
     ],
   },
   {
@@ -22,13 +24,14 @@ const NAV_SECTIONS = [
     items: [
       { to: '/market', label: 'Market Prices', icon: TrendingUp },
       { to: '/weather', label: 'Weather', icon: Cloud },
-      { to: '/calendar', label: 'Calendar', icon: Calendar },
+      { to: '/calendar', label: 'Crop Calendar', icon: Calendar },
       { to: '/analytics', label: 'Analytics', icon: BarChart3 },
     ],
   },
   {
     label: 'Tools',
     items: [
+      { to: '/chat', label: 'AI Farm Assistant', icon: MessageSquare },
       { to: '/files', label: 'Files & Uploads', icon: FileText },
     ],
   },
@@ -213,6 +216,24 @@ export default function Sidebar({ isOpen, onClose }) {
         </nav>
 
         {/* Footer */}
+        <div
+          className="p-3 border-t"
+          style={{ borderColor: 'rgba(123, 207, 137, 0.14)', background: 'rgba(0, 0, 0, 0.2)' }}
+        >
+          <button
+            onClick={() => {
+              localStorage.removeItem('token')
+              localStorage.removeItem('vaagai_token')
+              localStorage.removeItem('user')
+              localStorage.removeItem('vaagai_user_id')
+              window.location.href = '/signin'
+            }}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors hover:bg-red-500/10 text-red-400 hover:text-red-300"
+          >
+            <LogOut size={16} />
+            <span>Sign Out</span>
+          </button>
+        </div>
       </aside>
     </>
   )

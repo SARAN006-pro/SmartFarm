@@ -8,6 +8,8 @@ import { Sprout, Loader2, Mail, Lock } from "lucide-react"
 
 const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:3002").replace(/\/+$/, "")
 
+import { useAuthStore } from "@/stores/authStore"
+
 export default function SignIn() {
   const navigate = useNavigate()
   const [email, setEmail] = useState("")
@@ -16,11 +18,11 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token") || localStorage.getItem("vaagai_token")
     const user = localStorage.getItem("user")
 
     if (token && user) {
-      navigate("/dashboard", { replace: true })
+      navigate("/farm", { replace: true })
     }
   }, [navigate])
 
@@ -43,8 +45,16 @@ export default function SignIn() {
       }
 
       localStorage.setItem("token", data.token)
+      localStorage.setItem("vaagai_token", data.token)
       localStorage.setItem("user", JSON.stringify(data.user))
-      navigate("/dashboard", { replace: true })
+      if (data.user?.id) {
+        localStorage.setItem("vaagai_user_id", data.user.id)
+      } else {
+        localStorage.setItem("vaagai_user_id", data.user?.email || email)
+      }
+
+      useAuthStore.getState().setAuth(data.user, data.token)
+      navigate("/farm", { replace: true })
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed")
     } finally {
